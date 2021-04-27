@@ -1,6 +1,7 @@
 # import requests as req
+import matplotlib.pyplot as plt
 import json
-
+import functools
 # response = req.get("https://datos.comunidad.madrid/catalogo/dataset/032474a0-bf11-4465-bb92-392052962866/resource/301aed82-339b-4005-ab20-06db41ee7017/download/municipio_comunidad_madrid.json").json()
 # print(response["data"][0])
 # json.dump
@@ -9,6 +10,7 @@ import json
 # json.dumps
 # with open("municipalities.json", "w", encoding="utf8") as file:
 #     json.dump(response, file, ensure_ascii=False)
+
 
 def get_data():
     with open("municipalities.json", "r", encoding="utf8") as file:
@@ -20,14 +22,42 @@ data = get_data()
 
 
 def mean_density(given_list):
-    def get_density(mun):
-        return mun["densidad_por_km2"]
-    densities = list(map(get_density, given_list))
-    return sum(densities)/len(given_list)
+    densities = sum(list(map(lambda mun: mun["densidad_por_km2"], given_list)))
+    return densities/len(given_list)
 
+# def mean_density_traditional(given_list):
+#     densities = []
+#     for mun in given_list:
+#         densities.append(mun["densidad_por_km2"])
+#     return sum(densities)/len(given_list)
+mean_density("asd")
+def top_10_densidad(given_list):
+    lista_densidad=[]
+    # lista_densidad=list(sorted(map(lambda mun: mun["densidad_por_km2"], given_list), reverse=True))
+    lista_densidad=sorted(list(map(lambda mun: mun["densidad_por_km2"], given_list)), reverse=True)[0:10]
+    resultado = list(filter(lambda mun: mun["densidad_por_km2"] in lista_densidad, given_list))
 
+    lista_top=[]
+    for dens in lista_densidad[0:10]:
+        for mun in given_list:
+            if mun["densidad_por_km2"] == dens:
+                lista_top.append(mun)
+    return resultado
 
-test = mean_density(data)
+resultado = top_10_densidad(data)
+# print(resultado)
+
+def benford(given_list):
+    result = []
+    for num in range(1,10):
+        result.append(len(list(filter(lambda mun: str(mun["densidad_por_km2"]).startswith(str(num)), given_list)))/len(given_list))
+    return result
+
+benford_v = benford(data)
+plt.plot(benford_v)
+plt.show()
+print(benford_v)
+# test = mean_density(data)
 # print(test)
 
 # def get_biggest(given_list):
@@ -60,9 +90,6 @@ the_biggest = get_biggest(data)
 
 # a = cosa_complicada(data, 10)
 # print(a)
-
-def top_10(given_list):
-    areas =  sort(map(lambda mun: mun["superficie_km2"], given_list), reversed=True)[0:10]
 
 # a = (1,4,3,2)
 # # a.sort(reverse=True)
