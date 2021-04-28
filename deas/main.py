@@ -15,12 +15,30 @@ def write_json(url):
 url = "https://datos.comunidad.madrid/catalogo/dataset/35609dd5-9430-4d2e-8198-3eeb277e5282/resource/c38446ec-ace1-4d22-942f-5cc4979d19ed/download/desfibriladores_externos_fuera_ambito_sanitario.json"
 # write_json(url)
 
+
+
 def get_data():
     with open("deas.json", encoding="utf8") as file:
         data = json.load(file)["data"]
         return data
 
 data = get_data()
+
+def change_latlong(dataset):
+    result = {"data": []}
+    for i,dea in enumerate(dataset):
+        print(i)
+        try:
+            latlong = utm.to_latlon(int(dea["direccion_coordenada_x"]), int(dea["direccion_coordenada_y"]), 30, "N")
+        except:
+            continue
+        dea["direccion_coordenada_x"] = latlong[0]
+        dea["direccion_coordenada_y"] = latlong[1]
+        result["data"].append(dea)
+    with open("deas_latlon.json", "w", encoding="utf8") as file:
+        json.dump(result,file,ensure_ascii=False)
+
+# change_latlong(data)
 
 def get_title(given, title):
         counter = 0
