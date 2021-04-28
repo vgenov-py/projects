@@ -1,13 +1,9 @@
 # import requests as req
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import json
 import functools
+from models import Municipality
 # response = req.get("https://datos.comunidad.madrid/catalogo/dataset/032474a0-bf11-4465-bb92-392052962866/resource/301aed82-339b-4005-ab20-06db41ee7017/download/municipio_comunidad_madrid.json").json()
-# print(response["data"][0])
-# json.dump
-# json.load
-# json.loads
-# json.dumps
 # with open("municipalities.json", "w", encoding="utf8") as file:
 #     json.dump(response, file, ensure_ascii=False)
 
@@ -18,8 +14,6 @@ def get_data():
         return data
 
 data = get_data()
-
-
 
 
 def mean_density(given_list):
@@ -51,10 +45,10 @@ def benford(given_list):
         result.append(len(list(filter(lambda mun: str(mun["densidad_por_km2"]).startswith(str(num)), given_list)))/len(given_list))
     return result
 
-benford_v = benford(data)
-plt.plot(benford_v)
-plt.show()
-print(benford_v)
+# benford_v = benford(data)
+# plt.plot(benford_v)
+# plt.show()
+# print(benford_v)
 # test = mean_density(data)
 # print(test)
 
@@ -79,20 +73,54 @@ def get_biggest(given_list):
     return next(mun_biggest)
 
 the_biggest = get_biggest(data)
-# print(the_biggest)
 
-# def cosa_complicada(given_list, cohorte):
-#     areas =  map(lambda mun: mun["superficie_km2"], given_list)
-#     result = list(filter(lambda area: area >= cohorte, areas))
-#     return result
+# EJERCICIO 6:
 
-# a = cosa_complicada(data, 10)
-# print(a)
+def create_obj_mun(municipality):
+    result = Municipality(municipality["municipio_nombre"], municipality["densidad_por_km2"], municipality["superficie_km2"])
+    return result
+# print(type(test.area))
+# print(test.name)
+# EJERCICIO 8:
 
-# a = (1,4,3,2)
-# # a.sort(reverse=True)
-# # c = a.sort()
-# # print(c)
-# print("a-->",a)
-# b = tuple(sorted(a, reverse=False))
-# print("b-->",b)
+def all_to_objects(dataset):
+    result = tuple(map(lambda mun: create_obj_mun(mun),dataset))
+    return result
+
+mun_objs = all_to_objects(data)
+# print(mun_objs)
+# print(mun_objs[0].__str__())
+
+# EJERCICIO 10:
+def total_pop(dataset):
+    contador = 0
+
+    # CLÁSICA:
+
+    # for mun in dataset:
+    #     contador += mun.get_population()
+    # return contador
+    
+    # MAPEO:
+
+    # contador += map(lambda mun: mun.get_population(),dataset)
+    resultado = sum(list(map(lambda mun: mun.get_population(),dataset)))
+    populations = map(lambda mun: mun.get_population(),dataset)
+    for pop_total in populations:
+        contador += pop_total
+    # return contador
+    # return resultado
+    # populations = map(lambda mun: mun.get_population(),dataset)
+
+    populations = map(lambda mun: mun.get_population(),dataset)
+    resultado = functools.reduce(lambda mun1, mun2: mun1 +  mun2,populations)
+    return resultado
+
+# total_population = total_pop(mun_objs)
+# print(total_population)
+# print(Municipality.population)
+
+acebeda = create_obj_mun(data[0])
+print(acebeda.population)
+acebeda.density = 4 
+print(Municipality.total_population)
