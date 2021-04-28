@@ -1,12 +1,17 @@
 import requests as req
 import json
 import functools
+import utm
+import math
 from models import Dea
 from models import User
+# 440547,4473344
+# a = utm.to_latlon(443123, 4475002, 30, "N")
+# print(a)
 def write_json(url):
     response = req.get(url).json()
     with open("deas.json", "w", encoding="utf8") as file:
-        json.dump(response, file, ensure_ascii = False, indent=4)
+        json.dump(response, file, ensure_ascii = False, indent=4) 
 url = "https://datos.comunidad.madrid/catalogo/dataset/35609dd5-9430-4d2e-8198-3eeb277e5282/resource/c38446ec-ace1-4d22-942f-5cc4979d19ed/download/desfibriladores_externos_fuera_ambito_sanitario.json"
 # write_json(url)
 
@@ -101,9 +106,23 @@ while user.lower() != "salir":
                 elif user == "2":
                     user_x = int(input("Introduzca coordenada X: "))
                     user_y = int(input("Introduzca coordenada Y: "))
+                    userlatlong=utm.to_latlon(user_x,user_y,30,"N")
+                    
                     user = User(user_x, user_y)
-                    dea = user.get_nearest_dea(data[0:10])
+                    dea = user.get_nearest_dea(data)
+                    latlong = utm.to_latlon(int(dea["direccion_coordenada_x"]), int(dea["direccion_coordenada_y"]), 30, "N")
+                    def get_meters(dea_latlong, user_latlong):
+                        R = 6378
+                        delta_lat = dea_latlong[0]-user_latlong[0]
+                        delta_long = dea_latlong[1]-user_latlong[1]
+                        a = math.sinh(delta_lat/2) + math.cos(user_latlong[0])*math.cos(dea_latlong[0])*math.sinh(delta_long/2)
+                        c = 2*math.atan2(math.sqrt(a), math.sqrt(1-a))
+                        meters = R * c
+                        return meters
+                    distance_meters = get_meters(latlong, userlatlong)
                     print(dea)
+                    print(f"https://www.google.com/maps/search/?api=1&query={latlong[0]},{latlong[1]}")
+                    print(distance_meters)
                     user = input("Elija opción: ")
             else:
                 print("Usuario o contraseña incorrectos")

@@ -21,16 +21,14 @@ data = get_data()
 
 
 
+
 def mean_density(given_list):
     densities = sum(list(map(lambda mun: mun["densidad_por_km2"], given_list)))
     return densities/len(given_list)
 
-# def mean_density_traditional(given_list):
-#     densities = []
-#     for mun in given_list:
-#         densities.append(mun["densidad_por_km2"])
-#     return sum(densities)/len(given_list)
-mean_density("asd")
+
+
+
 def top_10_densidad(given_list):
     lista_densidad=[]
     # lista_densidad=list(sorted(map(lambda mun: mun["densidad_por_km2"], given_list), reverse=True))

@@ -6,6 +6,7 @@ class Human:
         self.age += 1
 
 
+
 a = Human("pepe", 10)
 a.envejecer()
 print(a.age)
