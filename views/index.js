@@ -84,10 +84,12 @@ function to_latlon(easting, northing) {
     function zone_number_to_central_longitude(){
         return ((30 - 1) * 6 - 180 + 3)
     }
+    // return (value + math.pi) % (2 * math.pi) - math.pi
+    // ((a % n ) + n ) % n
     function mod_angle(value){
         a = value + Math.PI
-        b = (2 * Math.PI) - Math.PI
-        result = a%b
+        dividend = 2*Math.PI
+        result = (((a%dividend)+dividend)%dividend)-Math.PI
         return result
     }
     
@@ -100,9 +102,8 @@ function to_latlon(easting, northing) {
           let pi = Math.PI;
           return radians * (180/pi);
         }
-    console.log(longitude)
+
     longitude = mod_angle(longitude + degrees_to_radians(zone_number_to_central_longitude()))
-    console.log(longitude)
     return [radians_to_degrees(latitude), radians_to_degrees(longitude)]
             // radians_to_degrees(longitude))
 }
@@ -114,7 +115,7 @@ console.log(test)
 
 window.navigator.geolocation.getCurrentPosition((position) => {
     
-    console.log(position.coords)
+    console.log(position)
     lat = position.coords.latitude
     long = position.coords.longitude
     // console.log(lat,long)
