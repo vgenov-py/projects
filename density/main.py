@@ -1,5 +1,6 @@
 # import requests as req
 # import matplotlib.pyplot as plt
+import csv
 import json
 import functools
 from models import Municipality
@@ -121,6 +122,49 @@ def total_pop(dataset):
 # print(Municipality.population)
 
 acebeda = create_obj_mun(data[0])
-print(acebeda.population)
+# print(acebeda.population)
 acebeda.density = 4 
-print(Municipality.total_population)
+# print(Municipality.total_population)
+    
+#EJERCICIO 12:
+def from_str(value):
+    name, density, area = value.split("-")
+    return Municipality(name,int(density),int(area))
+
+ej_12 = Municipality.from_str("Madrid-1-2")
+# print(ej_12)
+
+# prueba:
+a = Municipality.from_str("elobjeto1-23-21")
+print(a)
+
+# 1980-1990 1%
+a.apply_growth()
+print(Municipality.annual_growth_rate)
+# print(a)
+
+# 1990-2000 3%
+Municipality.set_annual_growth_rate(1.03)
+a.apply_growth()
+print(Municipality.annual_growth_rate)
+# print(a)
+
+# 2000-2010 4%
+Municipality.set_annual_growth_rate(1.04)
+a.apply_growth()
+print(Municipality.annual_growth_rate)
+# print(a)
+
+b = Municipality.from_str("elobjeto2-a-32")
+
+print(a.cualquiercosa())
+
+
+with open("munipalities.csv", "w", newline="", encoding="utf8") as file:
+    csv_writer = csv.writer(file,  delimiter= ",")
+    csv_writer.writerow(["name","density","area","population"])
+    for dea in mun_objs:
+        if dea:
+            csv_writer.writerow([dea.name,dea.density,dea.area,dea.population])
+        else:
+            continue

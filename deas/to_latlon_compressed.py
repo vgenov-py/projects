@@ -74,7 +74,7 @@ def to_latlon(easting, northing):
     longitude = (d -
                  d3 / 6 * (1 + 2 * p_tan2 + c) +
                  d5 / 120 * (5 - 2 * c + 28 * p_tan2 - 3 * c2 + 8 * E_P2 + 24 * p_tan4)) / p_cos
-
+    print("1",longitude)
     def zone_number_to_central_longitude():
         return (30 - 1) * 6 - 180 + 3
 
@@ -82,12 +82,16 @@ def to_latlon(easting, northing):
         return (value + math.pi) % (2 * math.pi) - math.pi
 
     longitude = mod_angle(longitude + math.radians(zone_number_to_central_longitude()))
+    print("2",longitude)
+
+    print("3",math.degrees(longitude))
 
     return (math.degrees(latitude),
             math.degrees(longitude))
 
-
 test = to_latlon(443123, 4475002)
 print(test)
 a = (40.42370631920457,-3.6704814712125287)
-print(test==a)
+# print(test==a)
+b = to_latlon(461786, 4547515)
+# print("AA", b)

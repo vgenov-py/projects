@@ -1,8 +1,15 @@
-const get_distance = (deaTo, user_lat, user_long) => {
-    c1 = (user_lat - deaTo["direccion_coordenada_x"])**2
-    c2 = (user_long - deaTo["direccion_coordenada_x"])**2
-    ala = (c1+c2)**0.5
-    return ala
+// const get_distance = (dea, user_lat, user_long) => {
+//     c1 = (user_lat - dea["direccion_coordenada_x"])**2
+//     c2 = (user_long - dea["direccion_coordenada_x"])**2
+//     result = (c1+c2)**0.5
+//     return result
+// }
+
+const get_distance = (user_lat, user_long, dea_lat,dea_long) => {
+    c1 = (user_lat - dea_lat)**2
+    c2 = (user_long - dea_long)**2
+    result = (c1+c2)**0.5
+    return result
 }
 
 function to_latlon(easting, northing) {
@@ -105,50 +112,44 @@ function to_latlon(easting, northing) {
 
     longitude = mod_angle(longitude + degrees_to_radians(zone_number_to_central_longitude()))
     return [radians_to_degrees(latitude), radians_to_degrees(longitude)]
-            // radians_to_degrees(longitude))
 }
 
-test = to_latlon(443123, 4475002)
-console.log(test)
-
-
+// test = to_latlon(443123, 4475002)
+// console.log(test)
 
 window.navigator.geolocation.getCurrentPosition((position) => {
     
     console.log(position)
-    lat = position.coords.latitude
-    long = position.coords.longitude
-    // console.log(lat,long)
-    fetch("https://raw.githubusercontent.com/vgenov-py/projects/master/deas/deas_latlon.json")
+    user_lat = position.coords.latitude
+    user_long = position.coords.longitude
+    // user_lat = 40.42370631920457
+    // user_long = -3.6704814712125287
+    fetch("https://raw.githubusercontent.com/vgenov-py/projects/master/deas/deas.json")
     .then((res) => res.json())
     .then((data) => {
-        console.log(data["data"][-1])
-        const find_one = (dataset, user_lat, user_long) => {
-            Hipo= 450000
-            const result = [1]
-            for (dea of dataset["data"]) {
-                const distance = get_distance(dea, user_lat, user_long)
-                if (distance <= Hipo) {
-                    result.push(dea)
-                    result.shift()
-                    Hipo=distance
-                }
+        data = data["data"]
+        distanceToBeat = 100000
+        nearestDea = null
+        data.forEach((dea) => {
+            x = "direccion_coordenada_x"
+            y = "direccion_coordenada_y"
+            deaLatLong = to_latlon(dea[x], dea[y])
+            distanceFromUserToDea = get_distance(user_lat, user_long, deaLatLong[0], deaLatLong[1])
+            if (distanceFromUserToDea<=distanceToBeat){
+                nearestDea = dea;
+                distanceToBeat = distanceFromUserToDea;
             }
-            console.log(result)
-            return result
-        }
-        test = find_one(data, lat, long)
-        console.log(test)
-        li = document.createElement("li")
-        li.innerText = test["direccion_via_nombre"]
+        })
+        console.log(nearestDea)
+        dea_latlong = to_latlon(nearestDea["direccion_coordenada_x"], nearestDea["direccion_coordenada_y"])
         const ul = document.querySelector("#deas")
-        ul.append(li)
-        for (dea of data["data"]){
-            li = document.createElement("li")
-            li.innerText = dea["direccion_via_nombre"]
-            li.className = "list-group-item"
-            ul.append(li)
-        }
+        const iframe = document.createElement("iframe")
+        iframe.src = `https://www.google.com/maps/dir/${user_lat},+${user_long}/${dea_latlong[0]},${dea_latlong[1]}`
+        console.log(iframe.src)
+        iframe.title = "DEA MÁS CERCANO"
+        ul.append(iframe)
+        // console.log(f"https://www.google.com/maps/dir/{userlatlong[0]},+{userlatlong[1]}/{latlong[0]},{latlong[1]}")
+        
     })
 
 })

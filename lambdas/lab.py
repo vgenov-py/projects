@@ -67,7 +67,7 @@ def contenedor(msg): # == @property
     return saludar(msg)
 
 test= contenedor("Otra cosa!")
-print(test)
+# print(test)
 
 
 
@@ -88,3 +88,15 @@ print(test)
 
 # test = reduce_en_casa(a)
 # print(test)
+
+# ERROR HANDLING:
+
+a = 1
+b = 2
+if True:
+    print("hola")
+
+try: 
+    print(a+b)
+except: 
+    print("No son números")
