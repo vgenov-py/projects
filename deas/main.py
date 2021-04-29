@@ -5,6 +5,8 @@ import utm
 import math
 from models import Dea
 from models import User
+from geopy import distance
+from utm import to_latlon
 # 440547,4473344
 # a = utm.to_latlon(443123, 4475002, 30, "N")
 # print(a)
@@ -21,8 +23,11 @@ def get_data():
     with open("deas.json", encoding="utf8") as file:
         data = json.load(file)["data"]
         return data
-
 data = get_data()
+def write_data(lista, fichero):
+    with open(f"{fichero}.json", "w", encoding="utf8") as file:
+        toappend = {"data": lista}
+        json.dump(toappend, file)
 
 def change_latlong(dataset):
     result = {"data": []}
@@ -93,7 +98,8 @@ while user.lower() != "salir":
             print("-----------------")
             print("1. Buscar DEA por código")
             print("2. Buscar DEA por distancia")
-            print("3. Volver atrás")
+            print("3. Buscar DEA por radio")
+            print("4. Volver atrás")
             print("-----------------")
 
         def by_code(code):
@@ -127,23 +133,36 @@ while user.lower() != "salir":
                     userlatlong=utm.to_latlon(user_x,user_y,30,"N")
                     
                     user = User(user_x, user_y)
-                    dea = user.get_nearest_dea(data)
+                    dea, H = user.get_nearest_dea(data)
                     latlong = utm.to_latlon(int(dea["direccion_coordenada_x"]), int(dea["direccion_coordenada_y"]), 30, "N")
-                    def get_meters(dea_latlong, user_latlong):
-                        R = 6378
-                        delta_lat = dea_latlong[0]-user_latlong[0]
-                        delta_long = dea_latlong[1]-user_latlong[1]
-                        a = math.sinh(delta_lat/2) + math.cos(user_latlong[0])*math.cos(dea_latlong[0])*math.sinh(delta_long/2)
-                        c = 2*math.atan2(math.sqrt(a), math.sqrt(1-a))
-                        meters = R * c
-                        return meters
-                    distance_meters = get_meters(latlong, userlatlong)
+                    def get_meters(user_latlong, dea_latlong):
+                        return distance.distance(user_latlong, dea_latlong).m
+                    distance_meters = get_meters(userlatlong,latlong)
                     print(dea)
                     print(f"https://www.google.com/maps/search/?api=1&query={latlong[0]},{latlong[1]}")
-                    print(distance_meters)
+                    print(f"https://www.google.com/maps/dir/{userlatlong[0]},+{userlatlong[1]}/{latlong[0]},{latlong[1]}")
+                    print("Usted está a ",distance_meters," metros", "Hipotenusa: ", H)
+                    user = input("Elija opción: ")
+
+                elif user == "3":
+                    user_x = int(input("Introduzca coordenada X: "))
+                    user_y = int(input("Introduzca coordenada Y: "))
+                    user_latlong=utm.to_latlon(user_x,user_y,30,"N")
+                    # dea_latlong = utm.to_latlon(int(dea["direccion_coordenada_x"]), int(dea["direccion_coordenada_y"]), 30, "N")
+
+                    user = User(user_x, user_y)
+                    deas_list = user.get_nearest_by_radio(data, 100)
+                    print(f"Se han encontrado {len(deas_list)} D.E.A.s:")
+                    all_points = f"https://www.google.com/maps/dir/{user_latlong[0]},+{user_latlong[1]}/"
+                    for dea in deas_list:
+                        dea_latlong = utm.to_latlon(int(dea["direccion_coordenada_x"]), int(dea["direccion_coordenada_y"]), 30, "N")
+                        all_points+=f"{dea_latlong[0]},{dea_latlong[1]}/"
+                    print(all_points)
+                    sub_menu()
                     user = input("Elija opción: ")
             else:
                 print("Usuario o contraseña incorrectos")
                 menu()
                 user = input("Elija opción: ")
+# a = utm.to_latlon(443123, 4475002, 30, "N")
 

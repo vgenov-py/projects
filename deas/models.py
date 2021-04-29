@@ -28,4 +28,9 @@ class User:
             if dea_object.get_distance(self.x, self.y) <= H:
                 result = dea
                 H = dea_object.get_distance(self.x, self.y)
+        return result, H
+    
+    def get_nearest_by_radio(self, given_list, radio):
+        H = radio
+        result = list(filter(lambda dea: Dea(dea["direccion_coordenada_x"], dea["direccion_coordenada_y"]).get_distance(self.x, self.y) <= H,given_list))
         return result

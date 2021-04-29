@@ -4,6 +4,10 @@ const get_distance = (deaTo, user_lat, user_long) => {
     ala = (c1+c2)**0.5
     return ala
 }
+
+
+
+
 window.navigator.geolocation.getCurrentPosition((position) => {
     
     console.log(position.coords)
@@ -36,8 +40,9 @@ window.navigator.geolocation.getCurrentPosition((position) => {
         ul.append(li)
         for (dea of data["data"]){
             li = document.createElement("li")
-            li.innerText = dea["direccion_coordenada_x"]
-            // ul.append(li)
+            li.innerText = dea["direccion_via_nombre"]
+            li.className = "list-group-item"
+            ul.append(li)
         }
     })
 
