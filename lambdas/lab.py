@@ -1,5 +1,6 @@
 import requests as req
 from functools import reduce
+import time
 # response = req.get("https://raw.githubusercontent.com/vgenov-py/projects/master/deas/deas_latlon.json").json()
 # print(response["data"][0])
 
@@ -56,7 +57,7 @@ from functools import reduce
 
 # test = outter("hola")
 # print(test)
-
+start = time.perf_counter()
 diccionario = {"sumar": lambda a,b: a + b}
 # print(diccionario["sumar"])
 
@@ -100,3 +101,5 @@ try:
     print(a+b)
 except: 
     print("No son números")
+finish = time.perf_counter()
+print(finish-start)

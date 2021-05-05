@@ -16,18 +16,21 @@ def write_json(url):
         json.dump(response, file, ensure_ascii = False, indent=4) 
 url = "https://datos.comunidad.madrid/catalogo/dataset/35609dd5-9430-4d2e-8198-3eeb277e5282/resource/c38446ec-ace1-4d22-942f-5cc4979d19ed/download/desfibriladores_externos_fuera_ambito_sanitario.json"
 # write_json(url)
+deas_json = "deas.json"
+users_json = "users.json"
 
 
-
-def get_data():
-    with open("deas.json", encoding="utf8") as file:
+def get_data(file_to_open):
+    with open(file_to_open, encoding="utf8") as file:
         data = json.load(file)["data"]
         return data
-data = get_data()
+data = get_data(deas_json)
 def write_data(lista, fichero):
-    with open(f"{fichero}.json", "w", encoding="utf8") as file:
+    with open(fichero, "w", encoding="utf8") as file:
         toappend = {"data": lista}
         json.dump(toappend, file)
+def dea_by_id(dea_code):
+    return next(filter(lambda dea: dea["codigo_dea"] == dea_code,data))
 
 def change_latlong(dataset):
     result = {"data": []}
@@ -69,12 +72,13 @@ def menu():
     print("DEA")
     print("1. Crear usuario")
     print("2. Acceder")
-    print("Salir")
+    print("3. Admin")
+    print("4. Salir")
     print("-----------------")
 menu()
 user = input("Elija opción: ")
 
-while user.lower() != "salir":
+while user.lower() != "q":
 
     # CREAR USUARIO
     if user == "1":
@@ -164,5 +168,65 @@ while user.lower() != "salir":
                 print("Usuario o contraseña incorrectos")
                 menu()
                 user = input("Elija opción: ")
-# a = utm.to_latlon(443123, 4475002, 30, "N")
+            
+    # ADMIN:
+    elif user == "3":
+        def sub_menu():
+            print("-----------------")
+            print("1. Agregar DEA")
+            print("2. Modificar DEA")
+            print("3. Eliminar DEA")
+            print("4. Volver atrás")
+            print("-----------------")
+        sub_menu()
+        user = input("Elija opción: ")
+
+        # CREATE DEA
+
+        if user == "1":
+            data = get_data(deas_json)
+            dea_keys = list(data[0])
+            new_dea = {}
+            for key in dea_keys:
+                print("-----------------")
+                new_dea[key] = input(f"{key}--->")
+            print(new_dea)
+            user = input("Introduzca ID: ")
+        
+        elif user == "2":
+            user = input("Introduzca ID: ")
+            data = get_data(deas_json)
+            dea_to_change = list(filter(lambda dea: dea["codigo_dea"] == user,data))[0]
+            dea_keys = list(dea_to_change)
+            print("-----------------")
+            print("Elija clave a modificar")
+            for i,key in enumerate(dea_keys):
+                print(i,".", key)
+            print("-----------------")
+            user_key = input("Elija opción: ")
+            print("-----------------")
+            print(dea_to_change[dea_keys[int(user_key)]]) # dea_to_change["direccion_puerta"]
+            print("-----------------")
+            user = input("Introduzca valor: ")
+            dea_to_change[dea_keys[int(user_key)]] = user
+            print("DEA modificado")
+            print(dea_to_change)
+            user = input("Elija opción: ")
+        # DELETE DEA
+        elif user == "3":
+            user = input("Introduzca ID: ")
+            data = get_data(deas_json)
+            dea_to_delete = dea_by_id(user)
+            print("DEA a eliminar -->", dea_to_delete)
+            user = input("¿Está seguro que quiere elminarlo? (s/n): ")
+            if user.lower() == "s":
+                data.remove(dea_to_delete)
+                write_data(data, deas_json)
+            sub_menu()
+            user = input("Elija opción: ")
+
+    else:
+        user = "q"
+
+# a = utm.to_latlon(443123, 4475002, 30, "N") ID:2021-54
 

@@ -13,7 +13,7 @@ def get_data():
     with open("municipalities.json", "r", encoding="utf8") as file:
         data = json.load(file)["data"]
         return data
-
+    
 data = get_data()
 
 

@@ -1,7 +1,7 @@
 import requests as req
 import json
 import csv
-
+import time
 url = "https://restcountries.eu/rest/v2/all"
 # response = req.get(url).json()
 
@@ -31,7 +31,8 @@ while user != "q":
         user = "q"
     elif user == "1":
         user = input("Introduzca país: ")
-        country = req.get(f"https://restcountries.eu/rest/v2/name/{user}").json()[0]
+        country = req.get(f"https://restcountries.eu/rest/v2/name/{user}").json()[0]        
+        print("Espere se está procesando su respuesta")
         data = [country["name"], country["capital"]]
         with open("historial.csv", "a") as file:
             escritor = csv.writer(file)
