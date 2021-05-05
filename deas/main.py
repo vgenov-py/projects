@@ -191,8 +191,12 @@ while user.lower() != "q":
                 print("-----------------")
                 new_dea[key] = input(f"{key}--->")
             print(new_dea)
+            data.append(new_dea) 
             user = input("Introduzca ID: ")
-        
+            write_data(data, deas_json)
+
+        # UPDATE DEA
+
         elif user == "2":
             user = input("Introduzca ID: ")
             data = get_data(deas_json)
@@ -212,7 +216,9 @@ while user.lower() != "q":
             print("DEA modificado")
             print(dea_to_change)
             user = input("Elija opción: ")
+
         # DELETE DEA
+        
         elif user == "3":
             user = input("Introduzca ID: ")
             data = get_data(deas_json)

@@ -1,0 +1,43 @@
+body {
+    margin: 0rem;
+}
+
+
+h2 {
+    color: red;
+}
+
+
+
+h2 {
+
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: rgb(100,200,255);
+    border: 2.5px violet solid;
+    border-radius: 25%;
+    padding-left: 2.5%;
+    margin-left: 35%;
+    margin-right: 35%;
+}
+
+
+
+div {
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    background-color: green;
+}
+
+
+/* POR ID: */
+#segundoH2 {
+    color: teal;
+    border-color: red;
+}
+
+/* POR CLASE: */
+.claseH2 {
+    color: thistle;
+    padding: 10px;
+}

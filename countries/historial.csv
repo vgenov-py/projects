@@ -1,7 +1,5 @@
-Argentina,Buenos Aires
-Spain,Madrid
-Andorra,Andorra la Vella
-Argentina,Buenos Aires
-Andorra,Andorra la VellaPortugal,Lisbon
-Portugal,Lisbon
-Italy,Rome
+name, capital, region, population, area, language, flag
+Argentina,Buenos Aires,Americas,43590400,2780400.0,Spanish,https://restcountries.eu/data/arg.svg
+Spain,Madrid,Europe,46438422,505992.0,Spanish,https://restcountries.eu/data/esp.svg
+Portugal,Lisbon,Europe,10374822,92090.0,Portuguese,https://restcountries.eu/data/prt.svg
+Monaco,Monaco,Europe,38400,2.02,French,https://restcountries.eu/data/mco.svg
