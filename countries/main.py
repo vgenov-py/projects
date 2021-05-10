@@ -129,11 +129,8 @@ while user != "q":
         flags = read_csv("all_flags.csv")
         start = time.perf_counter()
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            # for flag in flags:
-            #     executor.submit(get_flag, flag[0])
-
             [executor.submit(get_flag, flag[0]) for flag in flags]
-
+            
         finish = time.perf_counter()
         print(f"TIEMPO __> {finish-start}")
         user = choose()

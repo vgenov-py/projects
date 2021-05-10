@@ -116,7 +116,7 @@ a = [1,2,3,4]
 #NÚMEROS PARES CON TERNARIO Y COMPREHENSION:
 result_ternario = [num*2 if num %2 == 0 else num for num in a ]
 result = list(map(lambda num: num*2 if num %2 ==0 else num,a))
-print(result_ternario)
+# print(result_ternario)
 
 age = 15
 is_adult = 20 if age >= 18 else "string"
@@ -128,49 +128,74 @@ is_adult = 20 if age >= 18 else "string"
 #     print(False)
 
 
+# a = [1,2,3,4]
+# def doble(num):
+#     return num ** 2
+# listado = [doble(num) for num in a]
+
+
+
+
+# #con comprehension
+# result_en_lista = sum([num ** 2 for num in a])
+
+# #con generator sintaxis comprehension
+# result_en_generador = (num ** 2 for num in a)
+# # print(result_en_lista)
+# # print(type(result_1))
+
+
+# # con función normal
+# def dobles(given_list):
+#     result = []
+#     for num in given_list:
+#         result.append(num ** 2)
+#     return result
+
+# #con función generadora
+# def dobles_generator(given_list):
+#     for num in given_list:
+#         yield num ** 2
+
+# result_2 = dobles(a)
+
+
+# # con la función de Ricardo:
+# result_map = map(lambda num: num ** 2, a)
+
+
+# a = [1,2,3,4]
+
+# result = [num ** 2 for num in a]
+# result = [num** 2 for  num in a  if num%2==0]
+# result = [num** 2 if num%2==0 else num for num in a]
+
+# print(result)
+
+def unafuncion():
+    return "menu"
+
 a = [1,2,3,4]
-def doble(num):
-    return num ** 2
-listado = [doble(num) for num in a]
+num = 12
+
+result = "Es 100" if num == 100 else "Es 10"
 
 
-
-
-#con comprehension
-result_en_lista = sum([num ** 2 for num in a])
-
-#con generator sintaxis comprehension
-result_en_generador = (num ** 2 for num in a)
-# print(result_en_lista)
-# print(type(result_1))
-
-
-# con función normal
-def dobles(given_list):
-    result = []
-    for num in given_list:
-        result.append(num ** 2)
-    return result
-
-#con función generadora
-def dobles_generator(given_list):
-    for num in given_list:
-        yield num ** 2
-
-result_2 = dobles(a)
-
-
-# con la función de Ricardo:
-result_map = map(lambda num: num ** 2, a)
+# if num == 100:
+#     print("Es 100")
+# else:
+#     if num == 10:
+#         print("Es 10")
+#     else:
+#         if num == 1:
+#             print("Es 1")
+#         else:
+#             print("No es ninguno de los tres números mágicos")
 
 
 a = [1,2,3,4]
+b = [num  for num  in a]
 
-result = [num ** 2 for num in a]
-result = [num** 2 for  num in a  if num%2==0]
-result = [num** 2 if num%2==0 else num for num in a]
-
-num = 10
-
-result = "Es 10" if num == 10 else "Es 100" if num == 100 else "Es 1000" if num == 1000 else "Es 100000" if num == 10000 else "No sé qué número es"
-print(result)
+result = list(map(lambda num: num if num %2 == 0 else None,a))
+result_comprehension = [num for num in a if num %2 == 0]
+print(result_comprehension)
