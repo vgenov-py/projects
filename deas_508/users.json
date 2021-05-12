@@ -1,0 +1,24 @@
+{
+    "data": [
+        {
+            "name": "Vito",
+            "password": "root"
+        },
+        {
+            "name": "Kuga",
+            "password": "root"
+        },
+        {
+            "name": "Jose",
+            "password": "root"
+        },
+        {
+            "name": "Jonathan",
+            "password": "root"
+        },
+        {
+            "name": "Celia",
+            "password": "root"
+        }
+    ]
+}
