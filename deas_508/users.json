@@ -1,24 +1,36 @@
-{
+{ 
     "data": [
-        {
-            "name": "Vito",
-            "password": "root"
+        {  
+            "name": "kuga",
+            "password": "$2b$12$xNuMKxiRNX..eL8R5nv3QOKzFjvPayDIlcUgCBx5Ek.PGDC9OJWx6"
         },
         {
-            "name": "Kuga",
-            "password": "root"
+            "name": "kuga_2",
+            "password": "$2b$12$Vz66f.rz2d8MKDAlYLTJbeCo/EUQaPps41UmNxIGEmj9thrxjHPiS"
         },
         {
-            "name": "Jose",
-            "password": "root"
+            "name": "kuga_3",
+            "password": "$2b$12$CYL3CMl5be.b/2hhK0FzWudHRAoCSxzyn/j9f6cevXhG8Tr7PI2te"
         },
         {
-            "name": "Jonathan",
-            "password": "root"
+            "name": "ricardo",
+            "password": "$2b$12$BRagubbG6JBS3jrVvYq2Q.3Eei78qC3TDcXZJNLj1JeWWda4lPJHO"
         },
         {
-            "name": "Celia",
-            "password": "root"
+            "name": "kuga_jose",
+            "password": "$2b$12$ShKrXaizNw0zMiMpTRG.SOP7eF.B0BEiCcT2GnchY5mIObTuwAom."
+        },
+        {
+            "name": "nuevo",
+            "password": "$2b$12$lWDTVU0RPAimPJf55q7OM.GfFsi7tyjP2ln0U2hZEfvVVARSlFW0O"
+        },
+        {
+            "name": "nuevo_user",
+            "password": "$2b$12$/dF7mlgDpB2YrZ4zcmhLIu4vGhfn85oNf9.qvs6jX0LN9Mop1HN/S"
+        },
+        {
+            "name": "kuga_75",
+            "password": "$2b$12$0ybWcOdA1VScoWE3BFHP8erVZttG8wKV8iJUxEz8VkKoM55X6kHky"
         }
     ]
 }
