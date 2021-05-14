@@ -18,7 +18,7 @@ users_json = f"{di_path}users.json"
 # print(utm.from_latlon(0, 0))
 
 def get_data():
-    with open(f"{di_path}\deas.json", encoding="utf8") as file:
+    with open(f"{di_path}deas.json", encoding="utf8") as file:
         return json.load(file)
 
 data = get_data()
@@ -57,6 +57,13 @@ while user != "4":
                 print(f"DEA -->{result}\nDISTANCIA --> {distance}\n Maps-->")
                 func.menu()
                 user = func.choose()
+            elif user == "3":
+                user_x = func.choose("Indique coordenada X: ")
+                user_y = func.choose("Indique coordenada Y: ")
+                user_range = func.choose("Indique rango: ")
+                func.top_5_dea(user_x, user_y,data, user_range)
+                user = func.choose()
+
         else:
             print("Usuario o contraseña incorrectos")
             func.menu()

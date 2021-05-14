@@ -1,6 +1,7 @@
 from models import Dea
 import json
 import bcrypt
+import utm
 
 def menu():
     print("----------------")
@@ -43,6 +44,7 @@ def sub_menu_access():
     print("--------------------")
     print("1. Buscar por código")
     print("2. DEA más cercano")
+    print("3. DEA por rápido")
     print("--------------------")
 
 def dea_by_id(dea_code, dataset):
@@ -68,3 +70,20 @@ def nearest_dea(user_x, user_y, dataset):
         else:
             continue
     return result, distance_to_beat
+
+def top_5_dea(user_x, user_y, dataset, range):
+    user_x = int(user_x)
+    user_y = int(user_y)
+    result = {}
+    coord_x = "direccion_coordenada_x"
+    coord_y = "direccion_coordenada_y"
+
+    for dea in dataset:
+        dea_object = Dea(int(dea[coord_x]), int(dea[coord_y]))
+        dea_distance = dea_object.distance(user_x, user_y)
+        result[(dea[coord_x], dea[coord_y])] = dea_distance
+
+    result = dict(sorted(result.items(), key = lambda dea: dea[1]))
+    for dea in list(result.keys())[0:int(range)]:
+        coord_utm = utm.to_latlon(int(dea[0]), int(dea[1]),30, "N")
+        print(f"https://www.google.com/maps/search/?api=1&query={coord_utm[0]},{coord_utm[1]}" )
